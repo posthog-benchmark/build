@@ -40,3 +40,28 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           context: ./posthog
+
+  notify-failures:
+    name: Notify on build failures
+    needs:
+      - docker-build
+      - nsc-build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    if: failure() && needs.docker-build.result == 'success' && needs.nsc-build.result == 'failure'
+    steps:
+      - uses: ruby/action-slack@v3.2.1
+        with:
+          payload: |
+            {
+              "attachments": [{
+                "title": "Namespace build failed while Docker build passed! Check now: ${{ job.status }}: ${{ github.workflow }}",
+                "title_link": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                "text": "See the link",
+                "fields": [],
+                "footer": "",
+                "color": "danger"
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
