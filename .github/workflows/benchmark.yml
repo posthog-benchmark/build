@@ -21,7 +21,8 @@ jobs:
 
       - run: |
           ls
-          ls ./build
+          git status
+          git log -2
       - uses: namespacelabs/nscloud-setup@v0
 
       - uses: namespacelabs/nscloud-setup-buildx-action@v0
