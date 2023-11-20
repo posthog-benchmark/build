@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: true
 
-      - runs: |
+      - run: |
           ls
           ls ./build
       - uses: namespacelabs/nscloud-setup@v0
