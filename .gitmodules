@@ -2,3 +2,6 @@
 	path = posthog
 	url = https://github.com/PostHog/posthog.git
 
+[submodule "ClickHouse"]
+	path = ClickHouse
+	url = https://github.com/ClickHouse/ClickHouse.git
