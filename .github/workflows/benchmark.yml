@@ -22,6 +22,8 @@ jobs:
 
       - run: |
           ls
+          ls posthog
+          ls ClickHouse
           git status
           git log -2
           git submodule status
