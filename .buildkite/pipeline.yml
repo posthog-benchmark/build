@@ -1,0 +1,9 @@
+agents:
+  nsc-experimental-git-mirror: "true"
+  nsc-cache-tag: buildkite:gmichelo/build
+  nsc-cache-size: 50g
+
+steps:
+  - name: "Test"
+    command: |
+      ls
