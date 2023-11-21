@@ -18,14 +18,14 @@ jobs:
       - uses: namespacelabs/nscloud-checkout-action@HEAD
         with:
           submodules: recursive
-          fetch-depth: 3
+          fetch-depth: 0
 
       - run: |
           ls
           ls posthog
           ls ClickHouse
           git status
-          git log -2
+          git log -10
           git submodule status
       - uses: namespacelabs/nscloud-setup@v0
 
