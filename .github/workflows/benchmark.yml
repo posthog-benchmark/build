@@ -18,11 +18,13 @@ jobs:
       - uses: namespacelabs/nscloud-checkout-action@HEAD
         with:
           submodules: recursive
+          fetch-depth: 0
 
       - run: |
           ls
           git status
           git log -2
+          git submodule status
       - uses: namespacelabs/nscloud-setup@v0
 
       - uses: namespacelabs/nscloud-setup-buildx-action@v0
