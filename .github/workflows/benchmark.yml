@@ -18,16 +18,18 @@ jobs:
       - uses: namespacelabs/nscloud-checkout-action@HEAD
       # - uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: recursive
           fetch-depth: 2
 
       - run: |
+          sudo apt-get install -y tree
           ls
           ls posthog
           ls ClickHouse
           git status
           git log -10
           git submodule status
+          tree .
       - uses: namespacelabs/nscloud-setup@v0
 
       - uses: namespacelabs/nscloud-setup-buildx-action@v0
