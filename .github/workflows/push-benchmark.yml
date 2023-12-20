@@ -2,6 +2,9 @@ name: PostHog Push DockerHub Benchmark
 on:
   push:
   workflow_dispatch:
+    inputs:
+      posthog-commit-id:
+        required: false
 
 permissions:
   contents: read
@@ -15,6 +18,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - run: git submodule update --init posthog
+
+      - if: ${{ github.event.inputs.posthog-commit-id }} != ""
+        run: cd posthog && git checkout ${{ github.event.inputs.posthog-commit-id }}
 
       - uses: docker/setup-buildx-action@v2
 
@@ -41,6 +47,9 @@ jobs:
 
       - run: git submodule update --init posthog
 
+      - if: ${{ github.event.inputs.posthog-commit-id }} != ""
+        run: cd posthog && git checkout ${{ github.event.inputs.posthog-commit-id }}
+
       - uses: namespacelabs/nscloud-setup@v0
 
       - uses: namespacelabs/nscloud-setup-buildx-action@v0
@@ -66,6 +75,9 @@ jobs:
 
       - run: git submodule update --init posthog
 
+      - if: ${{ github.event.inputs.posthog-commit-id }} != ""
+        run: cd posthog && git checkout ${{ github.event.inputs.posthog-commit-id }}
+
       - uses: docker/setup-buildx-action@v2
 
       - name: Login to Docker Hub
@@ -77,6 +89,8 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           context: ./posthog
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           push: true
           tags: gmichelo/posthog-benchmark:latest-nsc-runner
 
