@@ -2,6 +2,8 @@ name: PostHog Benchmark
 on:
   push:
   workflow_dispatch:
+  schedule:
+    - cron: "35 * * * *"
 
 permissions:
   contents: read
