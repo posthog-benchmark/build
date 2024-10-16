@@ -2,9 +2,6 @@
 	path = posthog
 	url = https://github.com/PostHog/posthog.git
 
-[submodule "ClickHouse"]
-	path = ClickHouse
-	url = https://github.com/ClickHouse/ClickHouse.git
 [submodule "runner-tool-cache"]
 	path = runner-tool-cache
 	url = git@github.com:gmichelo-dev/runner-tool-cache.git
