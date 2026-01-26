@@ -1,6 +1,5 @@
 name: PostHog Push DockerHub Benchmark
 on:
-  push:
   workflow_dispatch:
     inputs:
       posthog-commit-id:
@@ -65,7 +64,7 @@ jobs:
           context: ./posthog
           push: true
           tags: gmichelo/posthog-benchmark:latest-nsc-build
-  
+
   nsc-runner-build:
     name: Build in Namespace
     runs-on: namespace-profile-push-benchmark
@@ -93,4 +92,3 @@ jobs:
           cache-to: type=gha,mode=max
           push: true
           tags: gmichelo/posthog-benchmark:latest-nsc-runner
-

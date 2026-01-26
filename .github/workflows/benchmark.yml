@@ -1,6 +1,5 @@
 name: PostHog Benchmark
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: "42 23 * * *"

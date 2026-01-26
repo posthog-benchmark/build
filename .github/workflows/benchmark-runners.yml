@@ -1,6 +1,5 @@
 name: PostHog Benchmarks from Namespace runners
 on:
-  push:
   workflow_dispatch:
 
 permissions:
