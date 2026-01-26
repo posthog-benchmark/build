@@ -12,9 +12,9 @@ permissions:
 jobs:
   docker-build:
     name: Build with Docker
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - run: git submodule update --init posthog
 
@@ -28,10 +28,10 @@ jobs:
 
   nsc-build:
     name: Build with Namespace
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - run: git submodule update --init posthog
 
@@ -42,6 +42,25 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           context: ./posthog
+
+  nscr-cache-build:
+    name: Build with nscr.io registry cache
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+
+      - run: git submodule update --init posthog
+
+      - uses: namespacelabs/nscloud-setup@v0
+
+      - run: nsc docker buildx setup --tag named-builder --use
+
+      - uses: docker/build-push-action@v4
+        with:
+          context: ./posthog
+          cache-from: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
+          cache-to: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
 
   notify-failures:
     name: Notify on build failures
