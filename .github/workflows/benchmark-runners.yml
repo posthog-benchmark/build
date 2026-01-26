@@ -11,7 +11,7 @@ jobs:
     name: Build with Namespace Runner
     runs-on:
       - nscloud-ubuntu-22.04-amd64-8x16-with-cache
-      - nscloud-git-mirror-5gb
+      - nscloud-git-mirror-15gb
     timeout-minutes: 30
     steps:
       - uses: namespacelabs/nscloud-checkout-action@v8
@@ -26,7 +26,7 @@ jobs:
     name: Build with nscr.io registry cache from Namespace Runner
     runs-on:
       - nscloud-ubuntu-22.04-amd64-8x16-with-cache
-      - nscloud-git-mirror-5gb
+      - nscloud-git-mirror-15gb
     timeout-minutes: 30
     steps:
       - uses: namespacelabs/nscloud-checkout-action@v8
