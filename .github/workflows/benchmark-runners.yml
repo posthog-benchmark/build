@@ -1,0 +1,49 @@
+name: PostHog Benchmarks from Namespace runners
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  nsc-runner-build:
+    name: Build with Namespace Runner
+    runs-on:
+      - nscloud-ubuntu-22.04-amd64-8x16-with-cache
+      - nscloud-git-mirror-5gb
+    timeout-minutes: 30
+    steps:
+      - uses: namespacelabs/nscloud-checkout-action@v8
+        with:
+          submodules: recursive
+
+      - uses: docker/build-push-action@v4
+        with:
+          context: ./posthog
+
+  nscr-cache-build:
+    name: Build with nscr.io registry cache from Namespace Runner
+    runs-on:
+      - nscloud-ubuntu-22.04-amd64-8x16-with-cache
+      - nscloud-git-mirror-5gb
+    timeout-minutes: 30
+    steps:
+      - uses: namespacelabs/nscloud-checkout-action@v8
+        with:
+          submodules: recursive
+
+      - run: nsc docker buildx setup --tag named-builder --use
+
+      - name: Release builder cache
+        run: nsc volume release 'named-builder-named-builder-amd64-16x32-128;buildkitd.version=0.25.2-5' || true
+
+      - uses: docker/build-push-action@v4
+        with:
+          context: ./posthog
+          cache-from: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
+          cache-to: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
+
+      - name: Release builder cache
+        run: nsc volume release 'named-builder-named-builder-amd64-16x32-128;buildkitd.version=0.25.2-5' || true
