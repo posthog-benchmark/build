@@ -21,6 +21,7 @@ jobs:
       - uses: docker/build-push-action@v4
         with:
           context: ./posthog
+          load: true
 
   nscr-cache-build:
     name: Build with nscr.io registry cache from Namespace Runner
@@ -43,6 +44,7 @@ jobs:
           context: ./posthog
           cache-from: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
           cache-to: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
+          load: true
 
       - name: Release builder cache
         run: nsc volume release 'named-builder-named-builder-amd64-16x32-128;buildkitd.version=0.25.2-5' || true
