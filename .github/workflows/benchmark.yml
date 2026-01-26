@@ -56,11 +56,17 @@ jobs:
 
       - run: nsc docker buildx setup --tag named-builder --use
 
+      - name: Release builder cache
+        run: nsc volume release 'named-builder-named-builder-amd64-16x32-128;buildkitd.version=0.25.2-5' || true
+
       - uses: docker/build-push-action@v4
         with:
           context: ./posthog
           cache-from: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
           cache-to: type=registry,mode=max,ref=nscr.io/flvhevllb0puc/posthog:buildcache
+
+      - name: Release builder cache
+        run: nsc volume release 'named-builder-named-builder-amd64-16x32-128;buildkitd.version=0.25.2-5' || true
 
   notify-failures:
     name: Notify on build failures
